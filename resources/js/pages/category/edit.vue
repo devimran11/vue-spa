@@ -1,10 +1,11 @@
+
 <template>
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-2">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5>Create Category</h5>
+                        <h5>Edit Category</h5>
                         <router-link class="btn btn-success" :to="{name: 'category-list'}">Category List</router-link>
                     </div>
                     <div class="card-body">
@@ -17,7 +18,7 @@
                                         <div style="color: red" v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-success">Create Category</button>
+                                        <button type="submit" class="btn btn-success">Update Category</button>
                                     </div>
                                 </form>
                             </div>
@@ -32,6 +33,7 @@
 <script>
 import Vue from "vue";
 import Form from 'vform'
+import axios from 'axios';
 export default {
     data(){
          return {
@@ -42,14 +44,25 @@ export default {
         }
     },
     methods: {
-        async createCategory () {
-            const response = await this.form.post('/api/category')
+        edit() {
+        axios
+            .get("/api/category/" + this.$route.params.id)
             .then((resp) => {
-                if(resp.data.status == 'success'){
-                    this.$router.push({ name: "category-list"});
-                }
+                console.log(resp)
+            if (resp.data.status == "success") {
+                this.form.name = resp.data.editCategory.name;
+            }
+            else {
+                this.error = "some thing want to wrongs";
+            }
             })
-        }
+            .catch((error) => {
+            console.log(error);
+            });
+        },
+    },
+    mounted() {
+        this.edit();
     }
 }
 </script>
