@@ -48,7 +48,8 @@ class CategoryController extends Controller
             'slug' => Str::slug($request->name)
         ]);
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'message' => 'Category Save successfully'
         ]);
     }
 
@@ -71,11 +72,11 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $editCategory = Category::find($category);
-        return response()->json([
-            'status' => 'success',
-            'editCategory' => $editCategory
-        ]);
+        if ($category) {
+            return response()->json($category, 200);
+        } else {
+            return response()->json('failed', 404);
+        }
     }
 
     /**
@@ -87,7 +88,19 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $this->validate($request, [
+            'name' => "required|unique:categories,name, $category->id"
+        ]);
+
+        $category->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category Updated successfully'
+        ]);
     }
 
     /**
@@ -98,17 +111,17 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $deleteCategory = Category::find($category);
-        if ($deleteCategory->delete()) {
-            return response()->json([
-                "success"  => "OK",
-                "message"  => "This Category has removed",
-            ]);
+        // $deleteCategory = Category::find($category);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'message' => 'Category Deleted Successfully'
+        // ]);
+        if ($category) {
+            $category->delete();
+
+            return response()->json('success', 200);
         } else {
-            return  response()->json([
-                "success" => "Fail",
-                "message" => "something wrong "
-            ]);
+            return response()->json('failed', 404);
         }
     }
 }

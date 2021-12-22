@@ -25,7 +25,9 @@
     },
     "dependencies": {
         "cxlt-vue2-toastr": "^1.1.1",
+        "sweetalert2": "^11.3.0",
         "vform": "^2.1.2",
-        "vue-router": "^3.5.3"
+        "vue-router": "^3.5.3",
+        "vue-toasted": "^1.1.28"
     }
 }
