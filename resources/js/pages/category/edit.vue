@@ -43,12 +43,22 @@ export default {
         }
     },
     methods: {
+<<<<<<< HEAD
         loadCategory(){
             let id = this.$route.params.id;
             
             axios.get(`/api/category/${id}/edit`).then(response => {
                 this.categoryForm.name = response.data.name;
+=======
+        loadCategory() {
+            axios
+                .get(`/api/category/${this.$route.params.id}`)
+                .then((res) => {
+                    console.log(resp);
+                    this.form.name = res.data;
+>>>>>>> 2e2c608f8211534f9c9210bd29910ef3b1db0142
             });
+
         },
         updateCategory(){
             let id = this.$route.params.id;

@@ -11,18 +11,18 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th style="100px">ID</th>
                                     <th>Name</th>
                                     <th>Slug</th>
-                                    <th>Action</th>
+                                    <th style="120px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="category in categories" :key="category.id">
-                                    <td>{{category.id}}</td>
+                                    <td style="100px">{{category.id}}</td>
                                     <td>{{category.name}}</td>
                                     <td>{{category.slug}}</td>
-                                    <td>
+                                    <td style="120px">
                                         <router-link :to="{name: 'edit-category', params: {id: category.id}}" class="btn btn-success btn-sm">Edit</router-link>
                                         <a @click="deleteCategory(category)" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
@@ -55,6 +55,7 @@ import Swal from 'sweetalert2'
                     this.categories = resp.data.categories;
                 });
             },
+<<<<<<< HEAD
             deleteCategory(category, index) {
                 Swal.fire({
                     title: "Are you sure?",
@@ -82,6 +83,24 @@ import Swal from 'sweetalert2'
                         });
                     }
                 });
+=======
+            deleteCategory(id){
+                // if (confirm("Are you sure to remove")) {
+                //     axios
+                //     .delete("/api/category/" + id)
+                //     .then((resp) => {
+                //         console.log(resp);
+                //         if (resp.data.success == "OK") {
+                //             alert(resp.data.message);
+                //             this.categories.data.splice(index, 1);
+                //         }
+                //     })
+                //     .catch();
+                // }
+                axios.delete('/api/category/${id}').then(()=>{
+
+                })
+>>>>>>> 2e2c608f8211534f9c9210bd29910ef3b1db0142
             }
         },
     }
