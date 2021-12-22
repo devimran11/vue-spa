@@ -11,18 +11,18 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th style="100px">ID</th>
                                     <th>Name</th>
                                     <th>Slug</th>
-                                    <th>Action</th>
+                                    <th style="120px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="category in categories" :key="category.id">
-                                    <td>{{category.id}}</td>
+                                    <td style="100px">{{category.id}}</td>
                                     <td>{{category.name}}</td>
                                     <td>{{category.slug}}</td>
-                                    <td>
+                                    <td style="120px">
                                         <router-link :to="{name: 'edit-category', params: {id: category.id}}" class="btn btn-success btn-sm">Edit</router-link>
                                         <a @click="deleteCategory(category.id)" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
@@ -68,7 +68,7 @@ import axios from 'axios';
                 //     .catch();
                 // }
                 axios.delete('/api/category/${id}').then(()=>{
-                    
+
                 })
             }
         },

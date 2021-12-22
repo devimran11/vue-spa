@@ -44,25 +44,18 @@ export default {
         }
     },
     methods: {
-        edit() {
-        axios
-            .get("/api/category/" + this.$route.params.id)
-            .then((resp) => {
-                console.log(resp)
-            if (resp.data.status == "success") {
-                this.form.name = resp.data.editCategory.name;
-            }
-            else {
-                this.error = "some thing want to wrongs";
-            }
-            })
-            .catch((error) => {
-            console.log(error);
+        loadCategory() {
+            axios
+                .get(`/api/category/${this.$route.params.id}`)
+                .then((res) => {
+                    console.log(resp);
+                    this.form.name = res.data;
             });
+
         },
     },
     mounted() {
-        this.edit();
+        this.loadCategory();
     }
 }
 </script>

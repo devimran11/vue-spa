@@ -47,6 +47,11 @@ export default {
             .then((resp) => {
                 if(resp.data.status == 'success'){
                     this.$router.push({ name: "category-list"});
+                    this.$toasted.show(resp.data.message, {
+                        type: "success",
+                        position: "top-right",
+                        duration: 4000,
+                    });
                 }
             })
         }

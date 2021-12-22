@@ -48,7 +48,8 @@ class CategoryController extends Controller
             'slug' => Str::slug($request->name)
         ]);
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'message' => 'Category save successfully'
         ]);
     }
 
@@ -71,11 +72,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $editCategory = Category::find($category);
-        return response()->json([
-            'status' => 'success',
-            'editCategory' => $editCategory
-        ]);
+
+        $category = Category::find($category);
+        return response()->json($category);
     }
 
     /**
