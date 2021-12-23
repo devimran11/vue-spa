@@ -49,11 +49,7 @@ class CategoryController extends Controller
         ]);
         return response()->json([
             'status' => 'success',
-<<<<<<< HEAD
             'message' => 'Category Save successfully'
-=======
-            'message' => 'Category save successfully'
->>>>>>> 2e2c608f8211534f9c9210bd29910ef3b1db0142
         ]);
     }
 
@@ -76,17 +72,14 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-<<<<<<< HEAD
         if ($category) {
             return response()->json($category, 200);
         } else {
             return response()->json('failed', 404);
         }
-=======
 
         $category = Category::find($category);
         return response()->json($category);
->>>>>>> 2e2c608f8211534f9c9210bd29910ef3b1db0142
     }
 
     /**

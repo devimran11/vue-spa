@@ -55,7 +55,6 @@ import Swal from 'sweetalert2'
                     this.categories = resp.data.categories;
                 });
             },
-<<<<<<< HEAD
             deleteCategory(category, index) {
                 Swal.fire({
                     title: "Are you sure?",
@@ -81,27 +80,9 @@ import Swal from 'sweetalert2'
                             type: "info",
                             duration: 3000,
                         });
-                    }
-                });
-=======
-            deleteCategory(id){
-                // if (confirm("Are you sure to remove")) {
-                //     axios
-                //     .delete("/api/category/" + id)
-                //     .then((resp) => {
-                //         console.log(resp);
-                //         if (resp.data.success == "OK") {
-                //             alert(resp.data.message);
-                //             this.categories.data.splice(index, 1);
-                //         }
-                //     })
-                //     .catch();
-                // }
-                axios.delete('/api/category/${id}').then(()=>{
-
-                })
->>>>>>> 2e2c608f8211534f9c9210bd29910ef3b1db0142
-            }
+                }
+            });
         },
+        }
     }
 </script>

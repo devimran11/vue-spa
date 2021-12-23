@@ -10,23 +10,23 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <form>
+                                <form @submit.prevent="createProduct">
                                     <div class="form-group pb-2">
                                         <label for="">Product Title: </label>
-                                        <input type="text" name="title" class="form-control" placeholder="product title" id="">
+                                        <input type="text" v-model="form.title" name="title" class="form-control" placeholder="product title" id="">
                                     </div>
                                     <!-- <div class="form-group">
                                         <label for="">Select Product Category</label>
                                         <select name="category_id" class="form-control" v-model="productForm.category_id" :class="{ 'is-invalid': productForm.errors.has('category_id') }">
                                             <option style="display:none;" value="" selected>Select Category</option>
-                                            <option :value="category.id" v-for="category in categories" :key="category.id"> {{ 
+                                            <option :value="category.id" v-for="category in categories" :key="category.id"> {{
                                                 category.name }}</option>
                                         </select>
                                         <has-error :form="productForm" field="category_id"></has-error>
                                     </div> -->
                                     <div class="form-group">
                                         <label for="">Product Price</label>
-                                        <input type="text" class="form-control" name="price" placeholder="product price">
+                                        <input type="text" v-model="form.price" class="form-control" name="price" placeholder="product price">
                                     </div>
                                     <div class="form-group pt-3">
                                         <label for="">Product Image</label>
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="form-group pt-2">
                                         <label for="">Product Description</label>
-                                        <textarea class="form-control" name="description" placeholder="product description" rows="3"></textarea>
+                                        <textarea class="form-control" v-model="form.description" name="description" placeholder="product description" rows="3"></textarea>
                                     </div>
                                     <div class="form-group pt-3">
                                         <button type="submit" class="btn btn-success">Create Product</button>
@@ -56,25 +56,36 @@ export default {
     data(){
          return {
             form: new Form({
-                name: ""
+                title: "",
+                price: "",
+                image: "",
+                description: ""
             }),
             error: "",
         }
     },
     methods: {
-        async createCategory () {
-            const response = await this.form.post('/api/category')
-            .then((resp) => {
-                if(resp.data.status == 'success'){
-                    this.$router.push({ name: "category-list"});
-                    this.$toasted.show(resp.data.message, {
-                        type: "success",
-                        position: "top-right",
-                        duration: 4000,
-                    });
+        createProduct(){
+            this.form.post('/api/product', {
+                transformRequest: [function (data, headers) {
+                    return objectToFormData(data)
+                }],
+                onUploadProgress: e => {
+                    // Do whatever you want with the progress event
+                    console.log(e)
                 }
+            }).then(({ data }) => {
+                this.form.title = '';
+                this.form.price = '';
+                this.form.image = '';
+                this.form.description = '';
+
+                this.$toast.success({
+                    title:'Success!',
+                    message:'Product Uploaded successfully.'
+                });
             })
-        }
+        },
     }
 }
 </script>
