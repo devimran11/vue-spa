@@ -14,6 +14,7 @@
                                     <div class="form-group pb-2">
                                         <label for="">Product Title: </label>
                                         <input type="text" v-model="form.title" name="title" class="form-control" placeholder="product title" id="">
+                                        <div style="color: red" v-if="form.errors.has('title')" v-html="form.errors.get('title')" />
                                     </div>
                                     <!-- <div class="form-group">
                                         <label for="">Select Product Category</label>
@@ -27,14 +28,16 @@
                                     <div class="form-group">
                                         <label for="">Product Price</label>
                                         <input type="text" v-model="form.price" class="form-control" name="price" placeholder="product price">
+                                        <div style="color: red" v-if="form.errors.has('price')" v-html="form.errors.get('price')" />
                                     </div>
                                     <div class="form-group pt-3">
                                         <label for="">Product Image</label>
-                                        <input type="file" class="form-control-file">
+                                        <input type="file" name="image" @change="uploadImage" class="form-control-file">
                                     </div>
                                     <div class="form-group pt-2">
                                         <label for="">Product Description</label>
                                         <textarea class="form-control" v-model="form.description" name="description" placeholder="product description" rows="3"></textarea>
+                                        <div style="color: red" v-if="form.errors.has('description')" v-html="form.errors.get('description')" />
                                     </div>
                                     <div class="form-group pt-3">
                                         <button type="submit" class="btn btn-success">Create Product</button>
@@ -66,25 +69,23 @@ export default {
     },
     methods: {
         createProduct(){
-            this.form.post('/api/product', {
-                transformRequest: [function (data, headers) {
-                    return objectToFormData(data)
-                }],
-                onUploadProgress: e => {
-                    // Do whatever you want with the progress event
-                    console.log(e)
+            this.form.post('/api/product')
+            .then((resp)=>{
+                if(resp.data.status=="success"){
+                    this.$router.push({name: "product-list"});
+                    this.$toasted.show(resp.data.message, {
+                        type: "success",
+                        position: "top-right",
+                        duration: 5000,
+                    });
                 }
-            }).then(({ data }) => {
-                this.form.title = '';
-                this.form.price = '';
-                this.form.image = '';
-                this.form.description = '';
-
-                this.$toast.success({
-                    title:'Success!',
-                    message:'Product Uploaded successfully.'
-                });
             })
+        },
+        uploadImage(e){
+            const file = e.target.files[0];
+            let render = new FileReader();
+            render.readAsDataURL(file);
+            this.form.image = file;
         },
     }
 }

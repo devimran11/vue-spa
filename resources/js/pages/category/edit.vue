@@ -15,7 +15,7 @@
                                     <div class="form-group pb-2">
                                         <label for="">Category Name: </label>
                                         <input type="text" name="name" v-model="categoryForm.name" class="form-control" placeholder="category name" id="">
-                                        <!-- <div style="color: red" v-if="form.errors.has('name')" v-html="form.errors.get('name')" /> -->
+                                        <div style="color: red" v-if="categoryForm.errors.has('name')" v-html="categoryForm.errors.get('name')" />
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-success">Update Category</button>

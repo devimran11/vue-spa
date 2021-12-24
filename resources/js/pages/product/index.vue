@@ -19,18 +19,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
+                                <tr v-for="product in products" :key="product.id">
+                                    <td>{{product.id}}</td>
                                     <td>
-                                        <div style="max-width: 150px; max-height: 150px; overflow:hidden">
-                                            <img src="https://picsum.photos/200" alt="" class="img-fluid">
-                                        </div>  
+                                        <img :src="product.image" alt="" width="50" height="50">
                                     </td>
-                                    <td>Lorem ipsum dolor sit amet.</td>
-                                    <td>category</td>
+                                    <td>{{product.price}}</td>
+                                    <td>{{product.description}}</td>
                                     <td>
-                                        <a class="btn btn-success btn-sm">Edit</a>
-                                        <a class="btn btn-danger btn-sm">Delete</a>
+                                        <router-link :to="{name: 'edit-product', params:{id: product.id}}" class="btn btn-success btn-sm">Edit</router-link>
+                                        <a @click="deleteProduct(product)" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -48,20 +46,21 @@ import Swal from 'sweetalert2'
     export default {
         data(){
             return{
-                categories: [],
+                products: [],
             }
         },
         created() {
-            this.getCategory();
+            this.getProduct();
         },
         methods: {
-            getCategory(){
-                axios.get('/api/category')
+            getProduct(){
+                axios.get('/api/product')
                 .then(resp => {
-                    this.categories = resp.data.categories;
+                    // console.log(resp);
+                    this.products = resp.data.products;
                 });
             },
-            deleteCategory(category, index) {
+            deleteProduct(product, index) {
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You won't delete this!",
@@ -72,14 +71,14 @@ import Swal from 'sweetalert2'
                     confirmButtonText: "Yes!",
                 }).then((result) => {
                     if (result.value) {
-                    axios.delete(`/api/category/${category.id}`).then(() => {
+                    axios.delete(`/api/product/${product.id}`).then(() => {
                     this.$toast.success({
                         title:'Success!',
-                        message:'Category deleted successfully.'
+                        message:'Product deleted successfully.'
                         });
                     });
-                    let index = this.categories.indexOf(category);
-                    this.categories.splice(index, 1);
+                    let index = this.products.indexOf(product);
+                    this.products.splice(index, 1);
                     } else {
                         this.$toasted.show("OK ! no action here", {
                             position: "top-center",
